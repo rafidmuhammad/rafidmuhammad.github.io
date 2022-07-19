@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'detail_screen.dart';
 
 void main() {
   runApp(const MyApp());
@@ -11,7 +12,8 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      debugShowCheckedModeBanner: false,
+      title: "Wisata Bandung",
       theme: ThemeData(
         // This is the theme of your application.
         //
@@ -24,14 +26,7 @@ class MyApp extends StatelessWidget {
         // is not restarted.
         primarySwatch: Colors.blue,
       ),
-      home: Scaffold(
-        appBar: AppBar(
-          title: Text("Hello World!"),
-        ),
-        body: Center(
-          child: Text("Hello World"),
-        ),
-      ),
+      home: const DetailScreen(),
     );
   }
 }
