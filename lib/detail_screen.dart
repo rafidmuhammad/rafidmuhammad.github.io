@@ -34,6 +34,24 @@ class DetailScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    return LayoutBuilder(
+      builder: (BuildContext context, BoxConstraints constraints) {
+        if (constraints.maxWidth > 800) {
+          return DetailWebPage(place: place);
+        } else {
+          return DetailMobilePage(place: place);
+        }
+      },
+    );
+  }
+}
+
+class DetailMobilePage extends StatelessWidget {
+  final TourismPlace place;
+  const DetailMobilePage({super.key, required this.place});
+
+  @override
+  Widget build(BuildContext context) {
     return Scaffold(
       body: SingleChildScrollView(
         child: Column(
@@ -54,11 +72,11 @@ class DetailScreen extends StatelessWidget {
                             onPressed: () {
                               Navigator.pop(context);
                             },
-                            icon: Icon(Icons.arrow_back),
+                            icon: const Icon(Icons.arrow_back),
                             color: Colors.white,
                           ),
                         ),
-                        FavoriteButton(),
+                        const FavoriteButton(),
                       ],
                     ),
                   ),
@@ -124,6 +142,9 @@ class DetailScreen extends StatelessWidget {
                   style: informationText.copyWith(fontSize: 16),
                   place.description),
             ),
+            SizedBox(
+              height: 8,
+            ),
             Container(
               height: 150,
               child: ListView(
@@ -139,7 +160,133 @@ class DetailScreen extends StatelessWidget {
                 }).toList(),
               ),
             ),
+            SizedBox(
+              height: 50,
+            )
           ],
+        ),
+      ),
+    );
+  }
+}
+
+class DetailWebPage extends StatelessWidget {
+  final TourismPlace place;
+  const DetailWebPage({super.key, required this.place});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 64, vertical: 16),
+          child: Container(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  "Wisata Bandung",
+                  style: titleText.copyWith(fontSize: 32),
+                ),
+                SizedBox(
+                  height: 32,
+                ),
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Expanded(
+                      child: Column(
+                        children: [
+                          ClipRRect(
+                            child: Image.asset(place.imageAsset),
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                          SizedBox(
+                            height: 16,
+                          ),
+                          Container(
+                            height: 150,
+                            child: ListView(
+                              scrollDirection: Axis.horizontal,
+                              children: place.imageUrls.map((url) {
+                                return Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: ClipRRect(
+                                      borderRadius: BorderRadius.circular(10),
+                                      child: Image.network(url)),
+                                );
+                              }).toList(),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    SizedBox(
+                      width: 32,
+                    ),
+                    Expanded(
+                        child: Card(
+                      child: Container(
+                        padding: EdgeInsets.all(16),
+                        child: Column(
+                          children: [
+                            Text(
+                              place.name,
+                              style: titleText.copyWith(fontSize: 32),
+                            ),
+                            Row(
+                              children: [
+                                const Icon(Icons.calendar_today),
+                                const SizedBox(
+                                  width: 8,
+                                ),
+                                Text(
+                                  place.openDays,
+                                  style: informationText,
+                                )
+                              ],
+                            ),
+                            Row(
+                              children: [
+                                const Icon(Icons.access_time),
+                                const SizedBox(
+                                  width: 8,
+                                ),
+                                Text(
+                                  place.openTime,
+                                  style: informationText,
+                                )
+                              ],
+                            ),
+                            Row(
+                              children: [
+                                const Icon(Icons.monetization_on_outlined),
+                                const SizedBox(
+                                  width: 8,
+                                ),
+                                Text(
+                                  place.ticketPrice,
+                                  style: informationText,
+                                )
+                              ],
+                            ),
+                            const SizedBox(
+                              height: 16,
+                            ),
+                            Text(
+                              place.description,
+                              textAlign: TextAlign.justify,
+                              style: informationText.copyWith(fontSize: 16),
+                            )
+                          ],
+                        ),
+                      ),
+                    ))
+                  ],
+                ),
+              ],
+            ),
+          ),
         ),
       ),
     );
