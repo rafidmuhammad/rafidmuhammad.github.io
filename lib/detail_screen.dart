@@ -142,7 +142,7 @@ class DetailMobilePage extends StatelessWidget {
                   style: informationText.copyWith(fontSize: 16),
                   place.description),
             ),
-            SizedBox(
+            const SizedBox(
               height: 8,
             ),
             Container(
@@ -160,7 +160,7 @@ class DetailMobilePage extends StatelessWidget {
                 }).toList(),
               ),
             ),
-            SizedBox(
+            const SizedBox(
               height: 50,
             )
           ],
@@ -170,9 +170,16 @@ class DetailMobilePage extends StatelessWidget {
   }
 }
 
-class DetailWebPage extends StatelessWidget {
+class DetailWebPage extends StatefulWidget {
   final TourismPlace place;
   const DetailWebPage({super.key, required this.place});
+
+  @override
+  State<DetailWebPage> createState() => _DetailWebPageState();
+}
+
+class _DetailWebPageState extends State<DetailWebPage> {
+  final _scrollController = ScrollController();
 
   @override
   Widget build(BuildContext context) {
@@ -180,115 +187,130 @@ class DetailWebPage extends StatelessWidget {
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 64, vertical: 16),
-          child: Container(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  "Wisata Bandung",
-                  style: titleText.copyWith(fontSize: 32),
-                ),
-                SizedBox(
-                  height: 32,
-                ),
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Expanded(
-                      child: Column(
-                        children: [
-                          ClipRRect(
-                            child: Image.asset(place.imageAsset),
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                          SizedBox(
-                            height: 16,
-                          ),
-                          Container(
-                            height: 150,
-                            child: ListView(
-                              scrollDirection: Axis.horizontal,
-                              children: place.imageUrls.map((url) {
-                                return Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: ClipRRect(
-                                      borderRadius: BorderRadius.circular(10),
-                                      child: Image.network(url)),
-                                );
-                              }).toList(),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    SizedBox(
-                      width: 32,
-                    ),
-                    Expanded(
-                        child: Card(
-                      child: Container(
-                        padding: EdgeInsets.all(16),
+          child: Center(
+            child: Container(
+              width: 1200,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    "Wisata Bandung",
+                    style: titleText.copyWith(fontSize: 32),
+                  ),
+                  const SizedBox(
+                    height: 32,
+                  ),
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Expanded(
                         child: Column(
                           children: [
-                            Text(
-                              place.name,
-                              style: titleText.copyWith(fontSize: 32),
-                            ),
-                            Row(
-                              children: [
-                                const Icon(Icons.calendar_today),
-                                const SizedBox(
-                                  width: 8,
-                                ),
-                                Text(
-                                  place.openDays,
-                                  style: informationText,
-                                )
-                              ],
-                            ),
-                            Row(
-                              children: [
-                                const Icon(Icons.access_time),
-                                const SizedBox(
-                                  width: 8,
-                                ),
-                                Text(
-                                  place.openTime,
-                                  style: informationText,
-                                )
-                              ],
-                            ),
-                            Row(
-                              children: [
-                                const Icon(Icons.monetization_on_outlined),
-                                const SizedBox(
-                                  width: 8,
-                                ),
-                                Text(
-                                  place.ticketPrice,
-                                  style: informationText,
-                                )
-                              ],
+                            ClipRRect(
+                              child: Image.asset(widget.place.imageAsset),
+                              borderRadius: BorderRadius.circular(10),
                             ),
                             const SizedBox(
                               height: 16,
                             ),
-                            Text(
-                              place.description,
-                              textAlign: TextAlign.justify,
-                              style: informationText.copyWith(fontSize: 16),
-                            )
+                            Scrollbar(
+                              thumbVisibility: true,
+                              controller: _scrollController,
+                              child: Container(
+                                height: 150,
+                                child: ListView(
+                                  controller: _scrollController,
+                                  scrollDirection: Axis.horizontal,
+                                  children: widget.place.imageUrls.map((url) {
+                                    return Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: ClipRRect(
+                                          borderRadius:
+                                              BorderRadius.circular(10),
+                                          child: Image.network(url)),
+                                    );
+                                  }).toList(),
+                                ),
+                              ),
+                            ),
                           ],
                         ),
                       ),
-                    ))
-                  ],
-                ),
-              ],
+                      const SizedBox(
+                        width: 32,
+                      ),
+                      Expanded(
+                          child: Card(
+                        child: Container(
+                          padding: const EdgeInsets.all(16),
+                          child: Column(
+                            children: [
+                              Text(
+                                widget.place.name,
+                                style: titleText.copyWith(fontSize: 32),
+                              ),
+                              Row(
+                                children: [
+                                  const Icon(Icons.calendar_today),
+                                  const SizedBox(
+                                    width: 8,
+                                  ),
+                                  Text(
+                                    widget.place.openDays,
+                                    style: informationText,
+                                  )
+                                ],
+                              ),
+                              Row(
+                                children: [
+                                  const Icon(Icons.access_time),
+                                  const SizedBox(
+                                    width: 8,
+                                  ),
+                                  Text(
+                                    widget.place.openTime,
+                                    style: informationText,
+                                  )
+                                ],
+                              ),
+                              Row(
+                                children: [
+                                  const Icon(Icons.monetization_on_outlined),
+                                  const SizedBox(
+                                    width: 8,
+                                  ),
+                                  Text(
+                                    widget.place.ticketPrice,
+                                    style: informationText,
+                                  )
+                                ],
+                              ),
+                              const SizedBox(
+                                height: 16,
+                              ),
+                              Text(
+                                widget.place.description,
+                                textAlign: TextAlign.justify,
+                                style: informationText.copyWith(fontSize: 16),
+                              )
+                            ],
+                          ),
+                        ),
+                      ))
+                    ],
+                  ),
+                ],
+              ),
             ),
           ),
         ),
       ),
     );
+  }
+
+  @override
+  void dispose() {
+    _scrollController.dispose();
+    super.dispose();
   }
 }
